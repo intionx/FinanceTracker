@@ -33,6 +33,11 @@ namespace FinanceApp.Data.Service
 			return expenses;
 		}
 
+		public async Task<Expense?> GetById(int id)
+		{
+			return await _context.Expenses.FindAsync(id);
+		}
+
 		public IQueryable GetChartData()
 		{
 			var data = _context.Expenses.GroupBy(e => e.Category).Select(g => new
@@ -42,6 +47,12 @@ namespace FinanceApp.Data.Service
 			});
 
 			return data;
+		}
+
+		public async Task Update(Expense expense)
+		{
+			_context.Expenses.Update(expense);
+			await _context.SaveChangesAsync();
 		}
 	}
 }
